@@ -6,7 +6,7 @@ import replaceData from "./utils/runtime/replaceData"
 import replaceChildren from "./utils/runtime/replaceChildren"
 import getIsVisible from "./utils/runtime/getIsVisible"
 import getIsExtraClassNamesWhen from "./utils/runtime/getIsExtraClassNamesWhen";
-import Runtime from "./index"
+import Runtime from "./Runtime"
 
 
 const SubRuntime: FC<ComponentConfig & { customComponents: Record<string, ComponentConfig>, parentState: Record<string, any> } & { slotChildren?: GridLayout[], slotGlobalProps?: Record<string, any> }> = memo((initConfig) => {
@@ -23,6 +23,7 @@ const SubRuntime: FC<ComponentConfig & { customComponents: Record<string, Compon
         const customComponentData = config.customComponent && config.customComponents[config.customComponent]
         if (customComponentData) {
             config = { ...customComponentData, globalProps: initConfig.globalProps || {}, x: initConfig.x, y: initConfig.y, w: initConfig.w, h: initConfig.h, customComponents: initConfig.customComponents || {} }
+            console.log("sub runtime", initConfig)
             Comp = (xyz: any) => (
                 <div
                     key={config.i}
@@ -49,7 +50,7 @@ const SubRuntime: FC<ComponentConfig & { customComponents: Record<string, Compon
     }
 
 
-   
+
 
 
     const props = useMemo(() => replaceData(config.props, globalData || {}, globalActions || {}, globalProps || {}, config.parentState || {}), [config.props, globalData, globalActions, globalProps, config.parentState])
@@ -85,7 +86,8 @@ const SubRuntime: FC<ComponentConfig & { customComponents: Record<string, Compon
 
     // When there's a gridLayout, use a neutral wrapper since Runtime will render the actual component
     // This prevents nested elements (e.g., form inside form)
-    if (config.gridLayout.length) {
+    // console.log("salem config--- sub runtime", config.i, config, slotChildren)
+    if (config.gridLayout?.length) {
         return <div
             key={config.i}
             style={{

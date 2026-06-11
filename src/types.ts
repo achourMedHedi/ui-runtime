@@ -1,4 +1,5 @@
 import type ReactGridLayout from "react-grid-layout"
+import { Workflow, workflowConnection } from "./utils/workflow/types"
 
 /**
  * Condition used to control visibility or conditional class names.
@@ -99,6 +100,7 @@ export type Layout = Omit<ReactGridLayout.Layout, "h" | "y"> & {
  * Every node has a grid position, a component type, props, and optional children via `gridLayout`.
  */
 export type GridLayout = Layout & {
+    slotChildren?: GridLayout[]
     /** Human-readable label — used by editors, not rendered. */
     name?: string
     /**
@@ -171,8 +173,7 @@ type NativeComponent = {
  * ```
  */
 export type ComponentConfig = Layout & {
-    id?: string
-    /** Human-readable label — used by editors, not rendered. */
+    /** Human-readable label — used to describe the component, not rendered. */
     name?: string
     /**
      * Scoped variables resolved before rendering.
@@ -210,4 +211,8 @@ export type ComponentConfig = Layout & {
      * Supports `{{globalProps.*}}` and `{{data.*}}` bindings for initialization.
      */
     componentState?: Record<string, any>
+
+    customComponents?: Record<string, ComponentConfig>
+
+    workflows?: Record<string, Workflow>,
 } & (TextComponent | NativeComponent)
