@@ -1,0 +1,284 @@
+{
+  "id": "dashboard-root",
+  "component": "Container",
+  "layout": { "engine": "grid", "columns": 12, "x": 0, "y": 0, "w": 12, "h": "screen" },
+  "style": { "background": "#f9fafb", "padding": "24px", "boxSizing": "border-box" },
+  "props": {
+    "children": [
+      {
+        "id": "header-title",
+        "component": "Div",
+        "layout": { "engine": "grid", "x": 0, "y": 0, "w": 8, "h": 40 },
+        "style": { "fontSize": 22, "fontWeight": 700, "color": "#111827" },
+        "props": { "children": "Sales Overview" }
+      },
+      {
+        "id": "tab-overview",
+        "component": "Button",
+        "layout": { "engine": "grid", "x": 8, "y": 0, "w": 2, "h": 40 },
+        "props": {
+          "children": "Overview",
+          "onClick": "{{actions.showOverview}}",
+          "style": { "padding": "8px 16px", "borderRadius": 8, "border": "1px solid #d1d5db", "background": "#fff", "cursor": "pointer" }
+        }
+      },
+      {
+        "id": "tab-details",
+        "component": "Button",
+        "layout": { "engine": "grid", "x": 10, "y": 0, "w": 2, "h": 40 },
+        "props": {
+          "children": "Details",
+          "onClick": "{{actions.showDetails}}",
+          "style": { "padding": "8px 16px", "borderRadius": 8, "border": "1px solid #d1d5db", "background": "#fff", "cursor": "pointer" }
+        }
+      },
+      {
+        "id": "panel-overview",
+        "component": "Container",
+        "layout": { "engine": "grid", "columns": 12, "x": 0, "y": 60, "w": 12, "h": 240 },
+        "visibleWhen": { "ref": "{{data.tab}}", "equals": "overview" },
+        "props": {
+          "children": [
+            {
+              "id": "ov-revenue",
+              "component": "Container",
+              "layout": { "engine": "grid", "columns": 1, "x": 0, "y": 0, "w": 3, "h": 110 },
+              "style": { "background": "#fff", "border": "1px solid #e5e7eb", "borderRadius": 12, "boxShadow": "0 1px 2px rgba(0,0,0,0.05)", "padding": "16px", "boxSizing": "border-box" },
+              "props": {
+                "children": [
+                  {
+                    "id": "ov-revenue-label",
+                    "component": "Div",
+                    "layout": { "engine": "grid", "x": 0, "y": 0, "w": 1, "h": 18 },
+                    "style": { "fontSize": 13, "color": "#6b7280" },
+                    "props": { "children": "Revenue" }
+                  },
+                  {
+                    "id": "ov-revenue-value",
+                    "component": "Div",
+                    "layout": { "engine": "grid", "x": 0, "y": 18, "w": 1, "h": 34 },
+                    "style": { "fontSize": 28, "fontWeight": 700, "color": "#111827" },
+                    "props": { "children": "{{data.revenue}}" }
+                  },
+                  {
+                    "id": "ov-revenue-hint",
+                    "component": "Div",
+                    "layout": { "engine": "grid", "x": 0, "y": 52, "w": 1, "h": 18 },
+                    "style": { "fontSize": 12, "color": "#9ca3af" },
+                    "props": { "children": "after fees" }
+                  }
+                ]
+              }
+            },
+            {
+              "id": "ov-users",
+              "component": "Container",
+              "layout": { "engine": "grid", "columns": 1, "x": 3, "y": 0, "w": 3, "h": 110 },
+              "style": { "background": "#fff", "border": "1px solid #e5e7eb", "borderRadius": 12, "boxShadow": "0 1px 2px rgba(0,0,0,0.05)", "padding": "16px", "boxSizing": "border-box" },
+              "props": {
+                "children": [
+                  {
+                    "id": "ov-users-label",
+                    "component": "Div",
+                    "layout": { "engine": "grid", "x": 0, "y": 0, "w": 1, "h": 18 },
+                    "style": { "fontSize": 13, "color": "#6b7280" },
+                    "props": { "children": "Active Users" }
+                  },
+                  {
+                    "id": "ov-users-value",
+                    "component": "Div",
+                    "layout": { "engine": "grid", "x": 0, "y": 18, "w": 1, "h": 34 },
+                    "style": { "fontSize": 28, "fontWeight": 700, "color": "#111827" },
+                    "props": { "children": "1,204" }
+                  }
+                ]
+              }
+            },
+            {
+              "id": "ov-orders",
+              "component": "Container",
+              "layout": { "engine": "grid", "columns": 1, "x": 6, "y": 0, "w": 3, "h": 110 },
+              "style": { "background": "#fff", "border": "1px solid #e5e7eb", "borderRadius": 12, "boxShadow": "0 1px 2px rgba(0,0,0,0.05)", "padding": "16px", "boxSizing": "border-box" },
+              "props": {
+                "children": [
+                  {
+                    "id": "ov-orders-label",
+                    "component": "Div",
+                    "layout": { "engine": "grid", "x": 0, "y": 0, "w": 1, "h": 18 },
+                    "style": { "fontSize": 13, "color": "#6b7280" },
+                    "props": { "children": "Orders" }
+                  },
+                  {
+                    "id": "ov-orders-value",
+                    "component": "Div",
+                    "layout": { "engine": "grid", "x": 0, "y": 18, "w": 1, "h": 34 },
+                    "style": { "fontSize": 28, "fontWeight": 700, "color": "#111827" },
+                    "props": { "children": "312" }
+                  }
+                ]
+              }
+            },
+            {
+              "id": "ov-conversion",
+              "component": "Container",
+              "layout": { "engine": "grid", "columns": 1, "x": 9, "y": 0, "w": 3, "h": 110 },
+              "style": { "background": "#fff", "border": "1px solid #e5e7eb", "borderRadius": 12, "boxShadow": "0 1px 2px rgba(0,0,0,0.05)", "padding": "16px", "boxSizing": "border-box" },
+              "props": {
+                "children": [
+                  {
+                    "id": "ov-conversion-label",
+                    "component": "Div",
+                    "layout": { "engine": "grid", "x": 0, "y": 0, "w": 1, "h": 18 },
+                    "style": { "fontSize": 13, "color": "#6b7280" },
+                    "props": { "children": "Conversion" }
+                  },
+                  {
+                    "id": "ov-conversion-value",
+                    "component": "Div",
+                    "layout": { "engine": "grid", "x": 0, "y": 18, "w": 1, "h": 34 },
+                    "style": { "fontSize": 28, "fontWeight": 700, "color": "#111827" },
+                    "props": { "children": "3.8%" }
+                  }
+                ]
+              }
+            },
+            {
+              "id": "ov-refresh",
+              "component": "Button",
+              "layout": { "engine": "grid", "x": 0, "y": 126, "w": 3, "h": 40 },
+              "props": {
+                "children": "Refresh revenue",
+                "onClick": "{{actions.refreshRevenue}}",
+                "style": { "padding": "8px 16px", "borderRadius": 8, "border": "1px solid #d1d5db", "background": "#fff", "cursor": "pointer" }
+              }
+            },
+            {
+              "id": "ov-expand",
+              "component": "Button",
+              "layout": { "engine": "grid", "x": 3, "y": 126, "w": 3, "h": 40 },
+              "props": {
+                "children": "Toggle details",
+                "onClick": "{{actions.toggleExpanded}}",
+                "style": { "padding": "8px 16px", "borderRadius": 8, "border": "1px solid #d1d5db", "background": "#fff", "cursor": "pointer" }
+              }
+            },
+            {
+              "id": "ov-hint",
+              "component": "Div",
+              "layout": { "engine": "grid", "x": 0, "y": 178, "w": 9, "h": 40 },
+              "visibleWhen": { "ref": "{{data.expanded}}", "equals": true },
+              "style": { "fontSize": 13, "color": "#6b7280" },
+              "props": { "children": "Revenue is calculated after refunds and platform fees are deducted." }
+            }
+          ]
+        }
+      },
+      {
+        "id": "panel-details",
+        "component": "Container",
+        "layout": { "engine": "grid", "columns": 12, "x": 0, "y": 60, "w": 12, "h": 140 },
+        "visibleWhen": { "ref": "{{data.tab}}", "equals": "details" },
+        "props": {
+          "children": [
+            {
+              "id": "det-aov",
+              "component": "Container",
+              "layout": { "engine": "grid", "columns": 1, "x": 0, "y": 0, "w": 3, "h": 110 },
+              "style": { "background": "#fff", "border": "1px solid #e5e7eb", "borderRadius": 12, "boxShadow": "0 1px 2px rgba(0,0,0,0.05)", "padding": "16px", "boxSizing": "border-box" },
+              "props": {
+                "children": [
+                  {
+                    "id": "det-aov-label",
+                    "component": "Div",
+                    "layout": { "engine": "grid", "x": 0, "y": 0, "w": 1, "h": 18 },
+                    "style": { "fontSize": 13, "color": "#6b7280" },
+                    "props": { "children": "Avg Order Value" }
+                  },
+                  {
+                    "id": "det-aov-value",
+                    "component": "Div",
+                    "layout": { "engine": "grid", "x": 0, "y": 18, "w": 1, "h": 34 },
+                    "style": { "fontSize": 28, "fontWeight": 700, "color": "#111827" },
+                    "props": { "children": "$155.60" }
+                  }
+                ]
+              }
+            },
+            {
+              "id": "det-refund",
+              "component": "Container",
+              "layout": { "engine": "grid", "columns": 1, "x": 3, "y": 0, "w": 3, "h": 110 },
+              "style": { "background": "#fff", "border": "1px solid #e5e7eb", "borderRadius": 12, "boxShadow": "0 1px 2px rgba(0,0,0,0.05)", "padding": "16px", "boxSizing": "border-box" },
+              "props": {
+                "children": [
+                  {
+                    "id": "det-refund-label",
+                    "component": "Div",
+                    "layout": { "engine": "grid", "x": 0, "y": 0, "w": 1, "h": 18 },
+                    "style": { "fontSize": 13, "color": "#6b7280" },
+                    "props": { "children": "Refund Rate" }
+                  },
+                  {
+                    "id": "det-refund-value",
+                    "component": "Div",
+                    "layout": { "engine": "grid", "x": 0, "y": 18, "w": 1, "h": 34 },
+                    "style": { "fontSize": 28, "fontWeight": 700, "color": "#111827" },
+                    "props": { "children": "2.1%" }
+                  }
+                ]
+              }
+            },
+            {
+              "id": "det-churn",
+              "component": "Container",
+              "layout": { "engine": "grid", "columns": 1, "x": 6, "y": 0, "w": 3, "h": 110 },
+              "style": { "background": "#fff", "border": "1px solid #e5e7eb", "borderRadius": 12, "boxShadow": "0 1px 2px rgba(0,0,0,0.05)", "padding": "16px", "boxSizing": "border-box" },
+              "props": {
+                "children": [
+                  {
+                    "id": "det-churn-label",
+                    "component": "Div",
+                    "layout": { "engine": "grid", "x": 0, "y": 0, "w": 1, "h": 18 },
+                    "style": { "fontSize": 13, "color": "#6b7280" },
+                    "props": { "children": "Churn Rate" }
+                  },
+                  {
+                    "id": "det-churn-value",
+                    "component": "Div",
+                    "layout": { "engine": "grid", "x": 0, "y": 18, "w": 1, "h": 34 },
+                    "style": { "fontSize": 28, "fontWeight": 700, "color": "#111827" },
+                    "props": { "children": "4.5%" }
+                  }
+                ]
+              }
+            },
+            {
+              "id": "det-nps",
+              "component": "Container",
+              "layout": { "engine": "grid", "columns": 1, "x": 9, "y": 0, "w": 3, "h": 110 },
+              "style": { "background": "#fff", "border": "1px solid #e5e7eb", "borderRadius": 12, "boxShadow": "0 1px 2px rgba(0,0,0,0.05)", "padding": "16px", "boxSizing": "border-box" },
+              "props": {
+                "children": [
+                  {
+                    "id": "det-nps-label",
+                    "component": "Div",
+                    "layout": { "engine": "grid", "x": 0, "y": 0, "w": 1, "h": 18 },
+                    "style": { "fontSize": 13, "color": "#6b7280" },
+                    "props": { "children": "NPS Score" }
+                  },
+                  {
+                    "id": "det-nps-value",
+                    "component": "Div",
+                    "layout": { "engine": "grid", "x": 0, "y": 18, "w": 1, "h": 34 },
+                    "style": { "fontSize": 28, "fontWeight": 700, "color": "#111827" },
+                    "props": { "children": "61" }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

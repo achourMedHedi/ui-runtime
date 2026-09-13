@@ -1,0 +1,37 @@
+{
+  "name": "core",
+  "type": "module",
+  "packageManager": "yarn@4.11.0",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "require": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.cjs"
+      }
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "test": "node --test",
+    "build": "vite build",
+    "dev": "vite build --watch"
+  },
+  "dependencies": {
+    "zod": "^4.4.3"
+  },
+  "devDependencies": {
+    "@types/node": "^26.4.0",
+    "typescript": "5.9.3",
+    "vite": "^8.2.2",
+    "vite-plugin-dts": "^5.0.3"
+  }
+}
