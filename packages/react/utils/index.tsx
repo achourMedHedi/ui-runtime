@@ -1,7 +1,7 @@
 export const DATA_REF_RE = /\{\{data\.(\w+(?:\.\w+)*)\}\}/g
 export const ACTIONS_REF_RE = /^\{\{actions\.(\w+)\}\}$/
 
-const getByPath = (data: Record<string, any>, path: string) => {
+export const getByPath = (data: Record<string, any>, path: string) => {
     return path.split(".").reduce<any>((acc, key) => (acc == null ? undefined : acc[key]), data)
 }
 

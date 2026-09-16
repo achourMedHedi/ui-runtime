@@ -1,14 +1,15 @@
 import type { URComponentConfig, URContext as TURContext, URLayoutConfig, URComponentType } from "core"
 import { URConfigValidator } from "core"
-import { useContext, useMemo } from "react"
+import { memo, useContext, useMemo } from "react"
 import UiRuntime from "./UiRuntime"
-import { isEmptyValue, replaceDataRefs } from "./utils"
+import NodeErrorBoundary from "./ErrorBoundary"
+import { isEmptyValue, replaceDataRefs, getByPath } from "./utils"
 import { URContext, URDataContext } from "./context"
 
 export type { URComponentConfig, TURContext }
-export { URContext, URDataContext }
+export { URContext, URDataContext, getByPath }
 
-export function URRenderer(props: URComponentConfig) {
+function URRendererImpl(props: URComponentConfig) {
     // All hooks run unconditionally, before any early return below — the
     // validity/registration checks that follow must never gate a hook call.
     const { components } = useContext(URContext)
@@ -45,5 +46,20 @@ export function URRenderer(props: URComponentConfig) {
     if (!isVisible) {
         return null
     }
-    return <UiRuntime {...result.data} data={data} actions={actions} component={Component} />
+    return (
+        <NodeErrorBoundary id={props.id}>
+            <UiRuntime {...result.data} data={data} actions={actions} component={Component} />
+        </NodeErrorBoundary>
+    )
 }
+
+// Memoized so a node with referentially-stable `data`/`actions` skips
+// re-rendering (and, since a skipped render never reaches its own child
+// URRenderer calls, so does everything under it) when something unrelated
+// changes elsewhere in the tree. Every other field on URComponentConfig
+// (layout, visibleWhen, style, props, component, id) already comes from the
+// static config and is naturally reference-stable across re-spreads, so the
+// default shallow comparator is exactly right here — no custom one needed.
+// This only pays off for callers that hand this node stable references;
+// see the note on `contextValue` in UiRuntime.tsx.
+export const URRenderer = memo(URRendererImpl)

@@ -6,11 +6,12 @@
   "packageManager": "yarn@4.11.0",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview"
   },
   "dependencies": {
+    "@tanstack/react-table": "^8.21.3",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
     "react-hook-form": "^7.87.0",

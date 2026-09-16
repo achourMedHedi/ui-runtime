@@ -7,3 +7,65 @@
 body {
   font-family: sans-serif;
 }
+
+/*
+ * Input/Select/Textarea are pure passthroughs with no baked-in styling of
+ * their own — a node's `props.style` does reach them (UiRuntime.tsx merges
+ * it over the computed grid-layout style), but these classes exist for the
+ * one thing inline style can't express: `.has-error`, a conditional class
+ * toggled via `className` bindings instead of a `visibleWhen`-gated style.
+ */
+.field-control {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+  font-size: 14px;
+  font-family: inherit;
+  outline: none;
+}
+
+.field-control.has-error {
+  border-color: #ef4444;
+}
+
+.field-control[type="number"] {
+  padding: 8px 10px;
+}
+
+textarea.field-control {
+  resize: none;
+}
+
+.btn-primary {
+  width: 100%;
+  padding: 9px 16px;
+  border-radius: 8px;
+  border: 1px solid #111827;
+  background: #111827;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+
+.btn-danger {
+  padding: 6px 12px;
+  border-radius: 8px;
+  border: 1px solid #ef4444;
+  background: #fff;
+  color: #ef4444;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+
+/* Hover feedback needs a real :hover pseudo-class, which the Table
+ * component's own inline styles can't express without extra state — a
+ * small, targeted CSS-class exception, same spirit as .has-error/.btn-primary. */
+.ur-table-row:hover {
+  background: #f9fafb;
+}

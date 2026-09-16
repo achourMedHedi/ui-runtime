@@ -3,20 +3,37 @@ import type { ComponentConfig } from "./types.ts"
 
 
 
-const layoutConfigSchema = z.object({
+const layoutHeightSchema = z.union([
+    z.number(),
+    z.literal("screen"),
+    z.templateLiteral(["screen-", z.number().int(), "px"]),
+    z.templateLiteral(["screen-", z.number().int(), "%"]),
+])
+
+const gridLayoutConfigSchema = z.object({
     engine: z.literal("grid"),
     columns: z.number().optional(),
     rowHeight: z.number().optional(),
     x: z.number(),
     y: z.number(),
     w: z.number(),
-    h: z.union([
-        z.number(),
-        z.literal("screen"),
-        z.templateLiteral(["screen-", z.number().int(), "px"]),
-        z.templateLiteral(["screen-", z.number().int(), "%"]),
-    ]),
+    h: layoutHeightSchema,
 })
+
+const flexLayoutConfigSchema = z.object({
+    engine: z.literal("flex"),
+    direction: z.enum(["row", "column"]).optional(),
+    wrap: z.boolean().optional(),
+    gap: z.number().optional(),
+    align: z.enum(["start", "center", "end", "stretch", "baseline"]).optional(),
+    justify: z.enum(["start", "center", "end", "space-between", "space-around", "space-evenly"]).optional(),
+    x: z.number(),
+    y: z.number(),
+    w: z.number(),
+    h: layoutHeightSchema,
+})
+
+const layoutConfigSchema = z.discriminatedUnion("engine", [gridLayoutConfigSchema, flexLayoutConfigSchema])
 
 const injectableDataValueSchema: z.ZodType<any> = z.lazy(() =>
     z.union([
