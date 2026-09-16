@@ -27,10 +27,6 @@ const flexLayoutConfigSchema = z.object({
     gap: z.number().optional(),
     align: z.enum(["start", "center", "end", "stretch", "baseline"]).optional(),
     justify: z.enum(["start", "center", "end", "space-between", "space-around", "space-evenly"]).optional(),
-    x: z.number(),
-    y: z.number(),
-    w: z.number(),
-    h: layoutHeightSchema,
 })
 
 const layoutConfigSchema = z.discriminatedUnion("engine", [gridLayoutConfigSchema, flexLayoutConfigSchema])

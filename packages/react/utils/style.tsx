@@ -22,11 +22,14 @@ const FLEX_JUSTIFY: Record<string, CSSProperties["justifyContent"]> = {
 /**
  * Turns a container's own layout into the CSS for arranging *its own*
  * children — independent of how the container itself was positioned by its
- * parent (see useStyle); a flex container can itself be a grid child, and
- * vice versa.
+ * parent (see useStyle); a grid container can itself be a flex child (it
+ * just won't be positioned by that parent's arrangement), but not the other
+ * way around — a flex node has no `x`/`y`/`w`/`h` to be placed with, so it
+ * can never sit as a positioned child of a grid parent (see LayoutConfig).
  *
  * "grid": a definition sized to fit the children (columns from
- * `layout.columns`, rows tall enough to cover every child's `y + h`), with
+ * `layout.columns`, rows tall enough to cover every child's `y + h` — only
+ * grid children have those, so flex children are skipped in that sum), with
  * an explicit pixel height to match — children are placed at fixed
  * coordinates, so the grid needs to know exactly how tall it is.
  *
@@ -53,7 +56,12 @@ export const formatContainerStyle = (layout: URLayoutConfig, children?: URCompon
 
     const rowHeight = layout.rowHeight ?? 1
     const totalRows = hasChildren
-        ? children!.reduce((max, child) => Math.max(max, child.layout.y + gridRowSpan(child.layout.h)), gridRowSpan(layout.h))
+        ? children!.reduce((max, child) => {
+              // a flex child has no y/h to contribute — it isn't placed by
+              // this grid at all, so it can't affect how tall the grid is.
+              if (child.layout.engine !== "grid") return max
+              return Math.max(max, child.layout.y + gridRowSpan(child.layout.h))
+          }, gridRowSpan(layout.h))
         : gridRowSpan(layout.h)
 
     const base: CSSProperties = {

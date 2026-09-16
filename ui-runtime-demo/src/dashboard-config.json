@@ -491,20 +491,21 @@
             {
               "id": "table-toolbar",
               "component": "Container",
-              "layout": { "engine": "flex", "justify": "space-between", "align": "center", "x": 0, "y": 0, "w": 12, "h": 32 },
+              "layout": { "engine": "grid", "x": 0, "y": 0, "w": 12, "h": 32 },
               "props": {
+                "style": { "display": "flex", "alignItems": "center", "justifyContent": "space-between" },
                 "children": [
                   {
                     "id": "table-title",
                     "component": "Container",
-                    "layout": { "engine": "flex", "x": 0, "y": 0, "w": 1, "h": 32 },
+                    "layout": { "engine": "flex" },
                     "style": { "fontSize": 15, "fontWeight": 700, "color": "#111827" },
                     "props": { "children": "Items (config-driven table)" }
                   },
                   {
                     "id": "create-item-trigger",
                     "component": "CreateItemModal",
-                    "layout": { "engine": "flex", "x": 0, "y": 0, "w": 1, "h": 32 },
+                    "layout": { "engine": "flex" },
                     "props": {
                       "categories": "{{data.itemCategories}}",
                       "onCreate": "{{actions.createItem}}"
@@ -570,13 +571,13 @@
                     "header": {
                       "id": "col-quantity-header",
                       "component": "Container",
-                      "layout": { "engine": "flex", "direction": "row", "align": "center", "justify": "space-between", "gap": 6, "x": 0, "y": 0, "w": 1, "h": 16 },
+                      "layout": { "engine": "flex", "direction": "row", "align": "center", "justify": "space-between", "gap": 6 },
                       "props": {
                         "children": [
                           {
                             "id": "col-quantity-sort-row",
                             "component": "Container",
-                            "layout": { "engine": "flex", "direction": "row", "align": "center", "gap": 4, "x": 0, "y": 0, "w": 1, "h": 16 },
+                            "layout": { "engine": "flex", "direction": "row", "align": "center", "gap": 4 },
                             "props": {
                               "onClick": "{{actions.toggleSort}}",
                               "style": {
@@ -630,7 +631,7 @@
                                 {
                                   "id": "col-quantity-filter-trigger",
                                   "component": "Container",
-                                  "layout": { "engine": "flex", "x": 0, "y": 0, "w": 1, "h": 16 },
+                                  "layout": { "engine": "flex" },
                                   "props": {
                                     "onClick": "{{actions.toggleFilterOpen}}",
                                     "style": { "cursor": "pointer", "flexShrink": 0 },
@@ -657,7 +658,7 @@
                                 {
                                   "id": "col-quantity-filter-panel",
                                   "component": "Container",
-                                  "layout": { "engine": "flex", "direction": "column", "gap": 6, "x": 0, "y": 0, "w": 1, "h": 60 },
+                                  "layout": { "engine": "flex", "direction": "column", "gap": 6 },
                                   "style": {
                                     "background": "#fff",
                                     "border": "1px solid #e5e7eb",
@@ -691,7 +692,7 @@
                                       {
                                         "id": "col-quantity-filter-actions",
                                         "component": "Container",
-                                        "layout": { "engine": "flex", "gap": 6, "justify": "end", "x": 0, "y": 0, "w": 1, "h": 24 },
+                                        "layout": { "engine": "flex", "gap": 6, "justify": "end" },
                                         "props": {
                                           "children": [
                                             {
@@ -758,7 +759,7 @@
                     "header": {
                       "id": "col-category-header",
                       "component": "Container",
-                      "layout": { "engine": "flex", "direction": "column", "gap": 4, "x": 0, "y": 0, "w": 1, "h": 32 },
+                      "layout": { "engine": "flex", "direction": "column", "gap": 4 },
                       "props": {
                         "children": [
                           {
@@ -802,7 +803,7 @@
                     "cell": {
                       "id": "col-category-cell",
                       "component": "Container",
-                      "layout": { "engine": "flex", "align": "center", "x": 0, "y": 0, "w": 1, "h": 32 },
+                      "layout": { "engine": "flex", "align": "center" },
                       "props": {
                         "children": [
                           {
@@ -887,7 +888,7 @@
                     "cell": {
                       "id": "col-actions-cell",
                       "component": "Container",
-                      "layout": { "engine": "flex", "gap": 6, "x": 0, "y": 0, "w": 1, "h": 32 },
+                      "layout": { "engine": "flex", "gap": 6 },
                       "props": {
                         "children": [
                           {
@@ -946,7 +947,7 @@
                   {
                     "id": "edit-item-modal-panel",
                     "component": "Container",
-                    "layout": { "engine": "flex", "direction": "column", "gap": 12, "x": 0, "y": 0, "w": 1, "h": 300 },
+                    "layout": { "engine": "flex", "direction": "column", "gap": 12 },
                     "style": {
                       "background": "#fff",
                       "borderRadius": 12,
@@ -1099,7 +1100,7 @@
                         {
                           "id": "edit-item-modal-actions",
                           "component": "Container",
-                          "layout": { "engine": "flex", "gap": 8, "justify": "end", "x": 0, "y": 0, "w": 1, "h": 36 },
+                          "layout": { "engine": "flex", "gap": 8, "justify": "end" },
                           "props": {
                             "children": [
                               {

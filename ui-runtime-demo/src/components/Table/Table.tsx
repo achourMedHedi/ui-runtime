@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState, type CSSProperties, type FC } from "react"
+import { useLayoutEffect, useMemo, useRef, useState, type CSSProperties, type FC } from "react"
 import {
     useReactTable,
     getCoreRowModel,
@@ -246,9 +246,19 @@ const Table: FC<TableProps> = ({
     const [openFilterId, setOpenFilterId] = useState<string | null>(null)
     const [filterDrafts, setFilterDrafts] = useState<Record<string, string>>({})
 
-    useEffect(() => {
+    // useLayoutEffect (not useEffect) so the real width is measured and
+    // applied before the browser paints — a plain useEffect runs after
+    // paint, so the first frame would render at containerWidth=0 (natural,
+    // un-filled column widths) and visibly snap to the real layout a beat
+    // later. The synchronous getBoundingClientRect() read covers the very
+    // first paint; ResizeObserver's own callback is inherently async (it
+    // never fires synchronously, even on initial observe), so it only
+    // handles *subsequent* resizes here, not the initial one.
+    useLayoutEffect(() => {
         const el = scrollRef.current
         if (!el) return
+        setContainerWidth(el.getBoundingClientRect().width)
+
         const observer = new ResizeObserver((entries) => {
             const width = entries[0]?.contentRect.width
             if (width) setContainerWidth(width)

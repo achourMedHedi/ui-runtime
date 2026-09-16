@@ -58,28 +58,25 @@ type LayoutConfigFlexAlign = "start" | "center" | "end" | "stretch" | "baseline"
 type LayoutConfigFlexJustify = "start" | "center" | "end" | "space-between" | "space-around" | "space-evenly"
 
 /**
- * `x`/`y`/`w`/`h` are how a node's *parent* places it (as a grid cell span —
- * meaningful whenever that parent is itself `engine: "grid"`) and are
- * carried by every engine for that reason, independent of how the node
- * arranges its *own* children. `engine` only changes the latter:
- * - "grid": children are placed by explicit `x`/`y`/`w`/`h` coordinates
- *   against a `columns`-wide, `rowHeight`-tall track grid (defaults 12/1px).
- * - "flex": children flow in array order along `direction` (default "row"),
- *   no coordinates needed — sized to content by default (no `formatContainerStyle`
- *   height is imposed, unlike grid's explicit-track height), since that's
- *   the whole point of reaching for flex over grid.
+ * "grid": children are placed by explicit `x`/`y`/`w`/`h` coordinates against
+ * a `columns`-wide, `rowHeight`-tall track grid (defaults 12/1px) — and,
+ * since a node's *parent* also places *it* the same way, every grid node
+ * carries `x`/`y`/`w`/`h` for that reason too, independent of how it
+ * arranges its own children.
+ *
+ * "flex": children flow in array order along `direction` (default "row"),
+ * sized to content — no coordinates needed, no `x`/`y`/`w`/`h` on this
+ * variant at all. That means a flex node can never be positioned by a grid
+ * parent (nothing to place it with) — a deliberate constraint, not an
+ * oversight: audited every flex node in this project's own demo config and
+ * found the one node that genuinely needed grid-parent placement was better
+ * served by staying `engine: "grid"` and reaching for a `props.style`
+ * override for its own flex *rendering* instead. See that config for the
+ * pattern if you hit the same case.
  */
 export type LayoutConfig =
     | { engine: "grid", columns?: number, rowHeight?: number, x: number, y: number, w: number, h: LayoutConfigGridHeight }
-    | {
-        engine: "flex",
-        direction?: "row" | "column",
-        wrap?: boolean,
-        gap?: number,
-        align?: LayoutConfigFlexAlign,
-        justify?: LayoutConfigFlexJustify,
-        x: number, y: number, w: number, h: LayoutConfigGridHeight,
-    }
+    | { engine: "flex", direction?: "row" | "column", wrap?: boolean, gap?: number, align?: LayoutConfigFlexAlign, justify?: LayoutConfigFlexJustify }
 
 type RegisteredComponent<TRegistry extends Record<string, ComponentType<any>>> = {
     [k in keyof TRegistry]: BaseComponent<k, PropsOf<TRegistry[k]>>
