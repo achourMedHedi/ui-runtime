@@ -1,5 +1,47 @@
 # ui-runtime
 
+A config-driven React UI runtime you drop into an **existing** app — not a platform you migrate into.
+
+Most "config-driven UI" tools (Retool, Appsmith, Budibase, low-code builders in general) want you to build *inside* them: their auth, their data layer, their hosting. `ui-runtime` is the opposite bet: it's a library. Your app keeps its own React tree, its own auth, its own API calls — you just hand one subtree a JSON config plus the `data`/`actions` your app already has, and it renders. The runtime never touches your state; it only reads it.
+
+```tsx
+import { URContext, URRenderer } from "ur-react"
+
+// any React component works — the runtime just needs to find it by name
+const components = { Card, Button }
+
+const config = {
+  id: "greeting",
+  component: "Card",
+  layout: { engine: "flex", direction: "column", gap: 8, x: 0, y: 0, w: 1, h: 1 },
+  props: {
+    children: [
+      { id: "label", component: "Card", layout: { engine: "flex", x: 0, y: 0, w: 1, h: 1 },
+        props: { children: "Hello, {{data.name}}" } },
+      { id: "cta", component: "Button", layout: { engine: "flex", x: 0, y: 0, w: 1, h: 1 },
+        props: { children: "Refresh", onClick: "{{actions.refresh}}" } },
+    ],
+  },
+}
+
+function App() {
+  const [name, setName] = useState("world")
+  return (
+    <URContext.Provider value={{ components, version: "0.1.0" }}>
+      <URRenderer {...config} data={{ name }} actions={{ refresh: () => setName("there") }} />
+    </URContext.Provider>
+  )
+}
+```
+
+`data`/`actions` are just props — fetch with whatever you already use (REST, GraphQL, TanStack Query), own the state however you want, pass the result in. The config decides *what renders*; your app decides *what's true*.
+
+**Two ways to extend a config, shown side by side in the demo, not just described:** compose a feature out of the built-in primitives (`Container`, `Input`, `Select`, `Button`, `Portal`, ...) purely in JSON, or drop to a real registered React component when config gets awkward — and call back into config-bound `data`/`actions` from inside it either way. `ui-runtime-demo/src/dashboard-config.json`'s Table (`ui-runtime-demo/src/components/Table`) is the walkthrough: sorting, filtering (an inline dropdown *and* an icon-triggered popover), column grouping, and full create/edit modals — each built once as a pure-config tree and once as a dedicated component, doing the identical thing.
+
+Layout is grid (explicit `x`/`y`/`w`/`h` coordinates, CSS Grid under the hood) or flex (`direction`/`gap`/`align`/`justify`, array order, sizes to content) per node, mixable anywhere in the tree.
+
+## The packages
+
 A monorepo (linked via Yarn `portal:` dependencies, not Yarn workspaces) containing:
 
 - **`packages/core`** (`core`) — framework-agnostic config schema validation, built on [Zod](https://zod.dev).
